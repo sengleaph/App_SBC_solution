@@ -1,7 +1,12 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sbc_app/view/Costumer/Custumer_page.dart';
+import 'package:sbc_app/view/attendance/attendence_page.dart';
+import 'package:sbc_app/view/history/history_page.dart';
 import 'package:sbc_app/view/navigation_bar/navigation_bar.dart';
+import 'package:sbc_app/view/profile_page/profile_page.dart';
+import 'package:sbc_app/view/time_leave/time_leave_page.dart';
 import 'package:sbc_app/view/widget/my_drawer.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,8 +26,8 @@ class _HomePageState extends State<HomePage> {
     "assets/images/attendance.png",
     "assets/images/time_leave.png",
     "assets/images/day_off.png",
-    "assets/images/OT.png",
-    "assets/images/time_sheet.png",
+    "assets/images/customer.png",
+    "assets/images/sale_servey.png",
     "assets/images/salary.png",
   ];
 
@@ -30,9 +35,18 @@ class _HomePageState extends State<HomePage> {
     "Attendance",
     "Time Leave",
     "Day Off",
-    "OT",
-    "Time Sheet",
+    "Customer",
+    "Sales Survey",
     "Salary",
+  ];
+  List navigating = [
+    AttendencePage(),
+    TimeLeavePage(),
+    AttendencePage(),
+    CustumerPage(),
+    AttendencePage(),
+    TimeLeavePage(),
+
   ];
 
   @override
@@ -79,19 +93,10 @@ class _HomePageState extends State<HomePage> {
                   left: 20, top: 10, right: 20, bottom: 10),
               child: Row(
                 children: [
-                  Stack(
-                    children: [
-                      CircleAvatar(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
-                          child: Image.asset(
-                            'assets/images/placeholder.png',
-                            width: 40,
-                            height: 40,
-                          ),
-                        ),
-                      ),
-                    ],
+                  CircleAvatar(
+                    radius: 25,
+                    backgroundColor: Colors.grey,
+                    backgroundImage: AssetImage ('assets/images/placeholder.png'),
                   ),
                   Text('Seang Sengleaph'),
                   Spacer(),
@@ -109,7 +114,10 @@ class _HomePageState extends State<HomePage> {
                 itemCount: imgData.length,
                 itemBuilder: (context, index) {
                   return InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => navigating[index]));
+                      // Navigator.push(context, MaterialPageRoute(builder: (context) => navigating[5],));
+                    },
                     child: Container(
                       margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                       decoration: BoxDecoration(
@@ -143,17 +151,48 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-        bottomNavigationBar: CurvedNavigationBar(
-          height: 60,
-            key: _bottomNavigationKey,
-            buttonBackgroundColor: Colors.green.shade900,
-            color: Colors.green.shade900,
-            backgroundColor: Colors.white,
-            items: <Widget>[
-              Icon(Icons.history, size: 30, color: Colors.white),
-              Icon(Icons.home_filled, size: 30, color: Colors.white),
-              Icon(Icons.person, size: 30, color: Colors.white),]
-        ));
 
+      //=======================================================================
+      // add to every page?
+      bottomNavigationBar: BottomAppBar(
+        height: 60,
+        color: Colors.green.shade900,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            IconButton(
+                icon: Icon(Icons.history, size: 30, color: Colors.white,),
+                onPressed: () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HistoryPage(),
+                      ));
+                }),
+            // IconButton(icon: Icon(Icons.home_filled), onPressed: () {}),
+            IconButton(
+                icon: Icon(Icons.person, size: 30, color: Colors.white,),
+                onPressed: () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProfilePage(),
+                      ));
+                }),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.white,
+          child: Icon(Icons.home_filled,size: 30, color: Colors.green.shade900,),
+          onPressed: () {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomePage(),
+                ));
+          }),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
   }
 }

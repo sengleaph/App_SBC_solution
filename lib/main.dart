@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sbc_app/view/home_page.dart';
-import 'package:sbc_app/view/login_page.dart';
-
-import 'view/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
