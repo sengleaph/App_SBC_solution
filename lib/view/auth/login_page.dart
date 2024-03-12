@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sbc_app/util/constants/color.dart';
 import 'package:sbc_app/view/home_page.dart';
+import 'package:sbc_app/view/navigation_bar/navigation_bar.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -184,7 +185,7 @@ class _LoginPageState extends State<LoginPage> {
                               backgroundColor: MaterialStateProperty.all(Colors.green)
                             ),
                             onPressed: () {
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BottinNavigationBar()));
                             },
                             child: Text("Log In"),
                           ),
