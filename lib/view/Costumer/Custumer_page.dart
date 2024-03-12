@@ -3,6 +3,7 @@ import 'package:sbc_app/view/Costumer/widget/add_custumer.dart';
 import 'package:sbc_app/view/Costumer/widget/table_page.dart';
 import 'package:sbc_app/view/home_page.dart';
 
+import '../navigation_bar/navigation_bar.dart';
 import 'widget/MyTablePage.dart';
 
 class CustumerPage extends StatefulWidget {
@@ -29,14 +30,14 @@ class _CustumerPageState extends State<CustumerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green.shade900,
+        backgroundColor: Colors.white,
         leading: IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => BottinNavigationBar(),));
             },
-            icon: Icon(Icons.arrow_back)),
+            icon: Icon(Icons.arrow_back,color: Colors.black)),
         title: Text(
-          "Customers",
+          "Customer", style: TextStyle(color: Colors.black),
         ),
         // centerTitle: true,
       ),
@@ -45,7 +46,8 @@ class _CustumerPageState extends State<CustumerPage> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -71,7 +73,7 @@ class _CustumerPageState extends State<CustumerPage> {
                       //   borderRadius: BorderRadius.circular(14),
                       // ),
                       child: const Center(
-                        child: Icon(Icons.menu),
+                        child: Icon(Icons.search),
                       ),
                     ),
                   ],
@@ -80,7 +82,7 @@ class _CustumerPageState extends State<CustumerPage> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-MyTablePage(),
+                  MyTablePage(),
                 ],
               )
             ],
@@ -90,7 +92,11 @@ MyTablePage(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green.shade900,
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => AddCustumer(),));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddCustumer(),
+              ));
         },
         child: Icon(Icons.add),
       ),

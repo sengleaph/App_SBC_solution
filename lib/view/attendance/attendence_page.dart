@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sbc_app/view/attendance/witget/clock_page.dart';
+import 'package:sbc_app/view/home_page.dart';
+
+import '../navigation_bar/navigation_bar.dart';
 
 class AttendencePage extends StatefulWidget {
   const AttendencePage ({super.key});
@@ -13,14 +16,14 @@ class _AttendencePageState extends State<AttendencePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green.shade900,
+        backgroundColor: Colors.white,
         leading: IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => BottinNavigationBar(),));
             },
-            icon: Icon(Icons.arrow_back)),
+            icon: Icon(Icons.arrow_back,color: Colors.black)),
         title: Text(
-          "Attendence",
+          "Attendence", style: TextStyle(color: Colors.black),
         ),
         // centerTitle: true,
       ),

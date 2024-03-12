@@ -1,10 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:sbc_app/view/attendance/witget/Scanning/home_page.dart';
-import 'package:sbc_app/view/attendance/witget/Scanning/scaning_page.dart';
-import 'package:sbc_app/view/home_page.dart';
+import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:sbc_app/model/UserModel.dart';
+import 'package:sbc_app/view/navigation_bar/navigation_bar.dart';
 import '../attendence_page.dart';
 import 'Scanning/finger_print.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ClockPage extends StatefulWidget {
   @override
@@ -13,8 +15,38 @@ class ClockPage extends StatefulWidget {
 
 class _ClockPageState extends State<ClockPage> {
   DateTime _currentTime = DateTime.now();
-  // DateTime _currentTime = DateTime.now();
-  bool _auth = false;
+  bool userAvialable = false;
+  late SharedPreferences sharedPreferences;
+  late StreamController<String> _timeStreamController;
+  late Timer _timer;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getCurrentUser();
+    _timeStreamController = StreamController<String>();
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      _timeStreamController.add(DateFormat('hh:mm:ss').format(DateTime.now()));
+    });
+  }
+
+  void _getCurrentUser() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+
+    try {
+      if (sharedPreferences.getString('employeeId') != null) {
+        setState(() {
+          UserModel.username = sharedPreferences.getString('employeeId')!;
+          userAvialable = true;
+        });
+      }
+    } catch (e) {
+      setState(() {
+        userAvialable = false;
+      });
+    }
+  }
 
   Future<void> _selectTime(BuildContext context) async {
     final TimeOfDay? pickedTime = await showTimePicker(
@@ -66,109 +98,117 @@ class _ClockPageState extends State<ClockPage> {
                 ),
               ),
               // SizedBox(height: 50.0,),
-              Padding(
-                  padding: const EdgeInsets.only(top: 50, right: 15, left: 15),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                '${_currentTime.hour}',
-                                style: TextStyle(
-                                    fontSize: 30, fontWeight: FontWeight.bold),
+              StreamBuilder(
+                  stream: Stream.periodic(Duration(seconds: 1)),
+                  builder: (context, snapshot) {
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 50),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    DateFormat('hh').format(DateTime.now()),
+                                    style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    'Hrs.',
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                'Hrs.',
-                                style: TextStyle(fontSize: 15),
-                              ),
-                            ],
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.grey),
+                              // boxShadow: [
+                              //   BoxShadow(
+                              //     color: Colors.grey.shade200,
+                              //     spreadRadius: 1,
+                              //     blurRadius: 2,
+                              //   )
+                              // ]
+                              // color: Colors.red,
+                            ),
+                            height: 110,
+                            width: 110,
                           ),
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.grey),
-                          // boxShadow: [
-                          //   BoxShadow(
-                          //     color: Colors.grey.shade200,
-                          //     spreadRadius: 1,
-                          //     blurRadius: 2,
-                          //   )
-                          // ]
-                          // color: Colors.red,
-                        ),
-                        height: 110,
-                        width: 110,
-                      ),
-                      Container(
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                '${_currentTime.minute}',
-                                style: TextStyle(
-                                    fontSize: 30, fontWeight: FontWeight.bold),
+                          Container(
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                  DateFormat('mm').format(DateTime.now()),
+                                    style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    'Min.',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                'Min.',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ],
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.grey),
+                              // boxShadow: [
+                              //     BoxShadow(
+                              //       color: Colors.grey.shade100,
+                              //       spreadRadius: 1,
+                              //       blurRadius: 1,
+                              //     )
+                              // ]
+                              // color: Colors.red,
+                            ),
+                            height: 110,
+                            width: 110,
                           ),
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.grey),
-                          // boxShadow: [
-                          //     BoxShadow(
-                          //       color: Colors.grey.shade100,
-                          //       spreadRadius: 1,
-                          //       blurRadius: 1,
-                          //     )
-                          // ]
-                          // color: Colors.red,
-                        ),
-                        height: 110,
-                        width: 110,
-                      ),
-                      Container(
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                '${_currentTime.second}',
-                                style: TextStyle(
-                                    fontSize: 30, fontWeight: FontWeight.bold),
+                          Container(
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    DateFormat('ss').format(DateTime.now()),
+                                    style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text('Sec.', style: TextStyle(fontSize: 15)),
+                                ],
                               ),
-                              Text('Sec.', style: TextStyle(fontSize: 15)),
-                            ],
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.grey),
+                              // boxShadow: [
+                              //   BoxShadow(
+                              //     color: Colors.grey.shade200,
+                              //     spreadRadius: 1,
+                              //     blurRadius: 2,
+                              //   )
+                              // ]
+                              // color: Colors.red,
+                            ),
+                            height: 110,
+                            width: 110,
                           ),
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.grey),
-                          // boxShadow: [
-                          //   BoxShadow(
-                          //     color: Colors.grey.shade200,
-                          //     spreadRadius: 1,
-                          //     blurRadius: 2,
-                          //   )
-                          // ]
-                          // color: Colors.red,
-                        ),
-                        height: 110,
-                        width: 110,
+                        ],
                       ),
-                    ],
-                  )),
+                    );
+                  }),
               Padding(
                   padding: const EdgeInsets.only(top: 200),
                   child: Center(
@@ -212,13 +252,14 @@ class _ClockPageState extends State<ClockPage> {
                                     bool auth =
                                         await Authentication.authentication();
                                     print('can authentication: $auth');
-                                    if (auth) {
+                                    if (auth = true) {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                AttendencePage(),
+                                                BottinNavigationBar(),
                                           ));
+                                      // Navigator.pop(context);
                                     }
                                   },
                                   child: Icon(
@@ -234,7 +275,7 @@ class _ClockPageState extends State<ClockPage> {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 30),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Container(
                                 child: SizedBox(
@@ -268,19 +309,6 @@ class _ClockPageState extends State<ClockPage> {
                                       ],
                                     ),
                                   ),
-                                  // decoration: BoxDecoration(
-                                  //   borderRadius: BorderRadius.circular(10),
-                                  //   border: Border.all(color: Colors.grey),
-                                  //   // boxShadow: [
-                                  //   //     BoxShadow(
-                                  //   //       color: Colors.grey.shade100,
-                                  //   //       spreadRadius: 1,
-                                  //   //       blurRadius: 1,
-                                  //   //     )
-                                  //   // ]
-                                  //   // color: Colors.red,
-                                  // ),
-                                  // height: 110,
                                   width: 110,
                                 ),
                               ),
@@ -294,7 +322,8 @@ class _ClockPageState extends State<ClockPage> {
                                           CrossAxisAlignment.center,
                                       children: [
                                         Text(
-                                          '${_currentTime.hour}:${_currentTime.minute}:${_currentTime.second}',
+                                          // '${_currentTime.hour}:${_currentTime.minute}:${_currentTime.second}',
+                                          '==/==',
                                           style: TextStyle(
                                               fontSize: 25,
                                               fontWeight: FontWeight.bold,
@@ -306,7 +335,7 @@ class _ClockPageState extends State<ClockPage> {
                                           children: [
                                             Icon(Icons.access_time),
                                             Text(
-                                              'Clock In',
+                                              'Clock out',
                                               // style: TextStyle(
                                               // fontSize: 15,
                                               // ),
@@ -316,82 +345,13 @@ class _ClockPageState extends State<ClockPage> {
                                       ],
                                     ),
                                   ),
-                                  // decoration: BoxDecoration(
-                                  //   borderRadius: BorderRadius.circular(10),
-                                  //   border: Border.all(color: Colors.grey),
-                                  //   // boxShadow: [
-                                  //   //     BoxShadow(
-                                  //   //       color: Colors.grey.shade100,
-                                  //   //       spreadRadius: 1,
-                                  //   //       blurRadius: 1,
-                                  //   //     )
-                                  //   // ]
-                                  //   // color: Colors.red,
-                                  // ),
-                                  // height: 110,
                                   width: 110,
                                 ),
                               ),
-                              Container(
-                                child: SizedBox(
-                                  child: Center(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          '${_currentTime.hour}:${_currentTime.minute}:${_currentTime.second}',
-                                          style: TextStyle(
-                                              fontSize: 25,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.grey),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Icon(Icons.access_time),
-                                            Text(
-                                              'Clock In',
-                                              // style: TextStyle(
-                                              // fontSize: 15,
-                                              // ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  // decoration: BoxDecoration(
-                                  //   borderRadius: BorderRadius.circular(10),
-                                  //   border: Border.all(color: Colors.grey),
-                                  //   // boxShadow: [
-                                  //   //     BoxShadow(
-                                  //   //       color: Colors.grey.shade100,
-                                  //   //       spreadRadius: 1,
-                                  //   //       blurRadius: 1,
-                                  //   //     )
-                                  //   // ]
-                                  //   // color: Colors.red,
-                                  // ),
-                                  // height: 110,
-                                  width: 110,
-                                ),
-                              ),
+
                             ],
                           ),
                         ),
-                        // ElevatedButton.icon(
-                        //   onPressed: () async{
-                        //     bool auth = await Authentication.authentication();
-                        //     print("can authenticate: $auth");
-                        //     if(auth){
-                        //       var push = Navigator.push(context, MaterialPageRoute(builder: (context) => Scaning()));
-                        //     }
-                        //   },
-                        //   icon: const Icon(Icons.fingerprint),
-                        //   label: const Text("Scan"),
-                        // ),
                       ],
                     ),
                   )),
@@ -409,7 +369,8 @@ class _ClockPageState extends State<ClockPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Seang sengleaph'),
+                Text('Employee${UserModel.username}',
+                    style: TextStyle(fontSize: 18)),
                 Container(
                   child: SizedBox(
                     child: Center(
@@ -439,25 +400,15 @@ class _ClockPageState extends State<ClockPage> {
                         ],
                       ),
                     ),
-                    // decoration: BoxDecoration(
-                    //   borderRadius: BorderRadius.circular(10),
-                    //   border: Border.all(color: Colors.grey),
-                    //   // boxShadow: [
-                    //   //     BoxShadow(
-                    //   //       color: Colors.grey.shade100,
-                    //   //       spreadRadius: 1,
-                    //   //       blurRadius: 1,
-                    //   //     )
-                    //   // ]
-                    //   // color: Colors.red,
-                    // ),
-                    // height: 110,
                     width: 110,
                   ),
                 ),
               ],
             ),
           ),
+          SizedBox(
+            height: 20,
+          )
         ],
       ))
       // }

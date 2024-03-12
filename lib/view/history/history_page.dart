@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:sbc_app/view/history/widget/my_data_time.dart';
+import 'package:sbc_app/view/navigation_bar/navigation_bar.dart';
 
-import '../home_page.dart';
-import '../profile_page/profile_page.dart';
+import '../widget/my_drawer.dart';
+
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage ({super.key});
@@ -11,54 +14,46 @@ class HistoryPage extends StatefulWidget {
 }
 
 class _HistoryPageState extends State<HistoryPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Colors.redAccent,
-      ),
-      
-      //=======================================================================
-      // add to every page?
-      bottomNavigationBar: BottomAppBar(
-        height: 60,
-        color: Colors.green.shade900,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+      appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.white,
+        ),
+        backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(
+          color: Colors.black,
+        ),
+        leading: IconButton(
+          onPressed: () {
+            _scaffoldKey.currentState!.openDrawer();
+          },
+          icon: const Icon(
+            Icons.menu,
+            size: 25,
+          ),
+        ),
+        title: Row(
           children: [
-            IconButton(
-                icon: Icon(Icons.history, size: 30, color: Colors.white,),
-                onPressed: () {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HistoryPage(),
-                      ));
-                }),
-            // IconButton(icon: Icon(Icons.home_filled), onPressed: () {}),
-            IconButton(
-                icon: Icon(Icons.person, size: 30, color: Colors.white,),
-                onPressed: () {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ProfilePage(),
-                      ));
-                }),
+            Image.asset(
+              'assets/images/sbc_app.jpg',
+              width: 30,
+              height: 30,
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Text('SBC Solution', style: TextStyle(color: Colors.black)),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.white,
-          child: Icon(Icons.home_filled,size: 30, color: Colors.green.shade900,),
-          onPressed: () {
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HomePage(),
-                ));
-          }),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      drawer: MyDraw(),
+      body: MyDataTime(),
+
     );
   }
 }

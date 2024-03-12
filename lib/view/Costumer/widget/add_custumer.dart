@@ -22,21 +22,16 @@ class _AddCustumerState extends State<AddCustumer> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green.shade900,
-        actions: [
-          IconButton(
+        backgroundColor: Colors.white,
+        leading: IconButton(
             onPressed: () {
-              _getImageFromSource('camera');
+              Navigator.push(context, MaterialPageRoute(builder: (context) => CustumerPage(),));
             },
-            icon: Icon(Icons.camera_alt_sharp),
-          ),
-          IconButton(
-            onPressed: () {
-              _getImageFromSource('gallery');
-            },
-            icon: Icon(Icons.photo_album),
-          ),
-        ],
+            icon: Icon(Icons.arrow_back,color: Colors.black)),
+        title: Text(
+          "Add Costumer", style: TextStyle(color: Colors.black),
+        ),
+        // centerTitle: true,
       ),
       body: SafeArea(
         child: SingleChildScrollView(

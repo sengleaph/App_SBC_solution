@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:sbc_app/view/history/history_page.dart';
+import 'package:sbc_app/view/home_page.dart';
+import 'package:sbc_app/view/navigation_bar/navigation_bar.dart';
+import 'package:sbc_app/view/navigation_bar/navigation_bar.dart';
+import 'package:sbc_app/view/navigation_bar/navigation_bar.dart';
+import 'package:sbc_app/view/profile_page/profile_page.dart';
 
 class MyDraw extends StatelessWidget {
   const MyDraw({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -14,8 +21,7 @@ class MyDraw extends StatelessWidget {
                 ),
                 currentAccountPicture: ClipRRect(
                     borderRadius: BorderRadius.circular(50),
-                    child: Image.network(
-                        'https://i.pinimg.com/originals/5f/b2/1a/5fb21aefc0aa94d8a84531611d8fe708.png')),
+                    child: Image.asset('assets/images/placeholder.png')),
                 currentAccountPictureSize: Size.square(75),
                 accountName: const Text(
                   "Seang sengleaph",
@@ -33,6 +39,13 @@ class MyDraw extends StatelessWidget {
                 Icons.home_filled,
                 color: Colors.green.shade700,
               ),
+              onTap: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BottinNavigationBar(),
+                    ));
+              },
             ),
             ListTile(
               title: const Text(
@@ -42,6 +55,7 @@ class MyDraw extends StatelessWidget {
                 Icons.person,
                 color: Colors.green.shade700,
               ),
+              onTap: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BottinNavigationBar(),));},
             ),
             ListTile(
               title: const Text(
@@ -51,6 +65,7 @@ class MyDraw extends StatelessWidget {
                 Icons.history,
                 color: Colors.green.shade700,
               ),
+              onTap: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BottinNavigationBar(),));},
             ),
             ListTile(
               title: const Text(

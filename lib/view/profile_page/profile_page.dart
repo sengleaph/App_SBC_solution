@@ -29,10 +29,10 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: Colors.green.shade900,
-        ),
-        backgroundColor: Colors.green.shade900,
+        // systemOverlayStyle: SystemUiOverlayStyle(
+        //   statusBarColor: Colors.white,
+        // ),
+        backgroundColor: Colors.white,
         iconTheme: const IconThemeData(
           color: Colors.white,
         ),
@@ -43,6 +43,7 @@ class _ProfilePageState extends State<ProfilePage> {
           icon: const Icon(
             Icons.menu,
             size: 25,
+            color: Colors.black,
           ),
         ),
         title: Row(
@@ -55,7 +56,9 @@ class _ProfilePageState extends State<ProfilePage> {
             SizedBox(
               width: 10,
             ),
-            Text('SBC Solution'),
+            Text('SBC Solution', style: TextStyle(
+              color: Colors.black
+            )),
           ],
         ),
       ),
@@ -95,57 +98,57 @@ class _ProfilePageState extends State<ProfilePage> {
 
       //=======================================================================
       // add to every page?
-      bottomNavigationBar: BottomAppBar(
-        height: 60,
-        color: Colors.green.shade900,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            IconButton(
-                icon: Icon(
-                  Icons.history,
-                  size: 30,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HistoryPage(),
-                      ));
-                }),
-            // IconButton(icon: Icon(Icons.home_filled), onPressed: () {}),
-            IconButton(
-                icon: Icon(
-                  Icons.person,
-                  size: 30,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ProfilePage(),
-                      ));
-                }),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.white,
-          child: Icon(
-            Icons.home_filled,
-            size: 30,
-            color: Colors.green.shade900,
-          ),
-          onPressed: () {
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HomePage(),
-                ));
-          }),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // bottomNavigationBar: BottomAppBar(
+      //   height: 60,
+      //   color: Colors.green.shade900,
+      //   child: Row(
+      //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+      //     children: [
+      //       IconButton(
+      //           icon: Icon(
+      //             Icons.history,
+      //             size: 30,
+      //             color: Colors.white,
+      //           ),
+      //           onPressed: () {
+      //             Navigator.pushReplacement(
+      //                 context,
+      //                 MaterialPageRoute(
+      //                   builder: (context) => HistoryPage(),
+      //                 ));
+      //           }),
+      //       // IconButton(icon: Icon(Icons.home_filled), onPressed: () {}),
+      //       IconButton(
+      //           icon: Icon(
+      //             Icons.person,
+      //             size: 30,
+      //             color: Colors.white,
+      //           ),
+      //           onPressed: () {
+      //             Navigator.pushReplacement(
+      //                 context,
+      //                 MaterialPageRoute(
+      //                   builder: (context) => ProfilePage(),
+      //                 ));
+      //           }),
+      //     ],
+      //   ),
+      // ),
+      // floatingActionButton: FloatingActionButton(
+      //     backgroundColor: Colors.white,
+      //     child: Icon(
+      //       Icons.home_filled,
+      //       size: 30,
+      //       color: Colors.green.shade900,
+      //     ),
+      //     onPressed: () {
+      //       Navigator.pushReplacement(
+      //           context,
+      //           MaterialPageRoute(
+      //             builder: (context) => HomePage(),
+      //           ));
+      //     }),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
