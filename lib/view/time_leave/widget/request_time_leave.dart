@@ -2,15 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:sbc_app/view/Costumer/Custumer_page.dart';
-import 'package:sbc_app/view/sales_surveys/sale_survey_page.dart';
-import 'package:sbc_app/view/sales_surveys/widget/date_picker.dart';
-import 'package:sbc_app/view/sales_surveys/widget/salesman.dart';
+import 'package:sbc_app/view/Costumer/no_mvvm/Custumer_page.dart';
+import 'package:sbc_app/view/sales_surveys/no_mvvm/sale_survey_page.dart';
 import 'package:sbc_app/view/time_leave/time_leave_page.dart';
 import 'package:sbc_app/view/time_leave/widget/time_shift.dart';
 import 'package:sbc_app/view/time_leave/widget/type_leave.dart';
 
 import '../../home_page.dart';
+import '../../sales_surveys/no_mvvm/widget/date_picker.dart';
 
 class RequestTimeLeavePage extends StatefulWidget {
   const RequestTimeLeavePage({super.key});

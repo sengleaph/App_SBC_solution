@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../utils/auth/utils.dart';
-import '../viewModel/auth_view_model.dart';
+import '../../../util/auth/utils.dart';
+import '../../../viewmodel/auth_viewmodel/auth_viewmodels.dart';
 
 class InputUserNameWidget extends StatelessWidget {
   final FocusNode usernameFocusNode, passwordFocusNode;

@@ -2,11 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:sbc_app/model/UserModel.dart';
+import 'package:sbc_app/model/auth_model/UserModel.dart';
 import 'package:sbc_app/view/navigation_bar/navigation_bar.dart';
 import '../attendence_page.dart';
 import 'Scanning/finger_print.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'Scanning/response_data_widget.dart';
 
 class ClockPage extends StatefulWidget {
   @override
@@ -19,6 +21,7 @@ class _ClockPageState extends State<ClockPage> {
   late SharedPreferences sharedPreferences;
   late StreamController<String> _timeStreamController;
   late Timer _timer;
+  bool auth = false;
 
   @override
   void initState() {
@@ -360,57 +363,7 @@ class _ClockPageState extends State<ClockPage> {
         ),
       ),
       // if(auth = true){
-      Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Employee${UserModel.username}',
-                    style: TextStyle(fontSize: 18)),
-                Container(
-                  child: SizedBox(
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            '${_currentTime.hour}:${_currentTime.minute}:${_currentTime.second}',
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.access_time, size: 10),
-                              Text(
-                                'Clock In',
-                                style: TextStyle(
-                                  fontSize: 10,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    width: 110,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          )
-        ],
-      ))
+
       // }
     ]));
   }

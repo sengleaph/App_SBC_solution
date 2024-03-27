@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sbc_app/view/auth/widget/input_email_widget.dart';
-import 'package:sbc_app/view/auth/widget/input_password.dart';
-import 'package:sbc_app/view/auth/widget/login_button_widget.dart';
 import 'package:sbc_app/view/navigation_bar/navigation_bar.dart';
-
-import '../../util/auth/login_access_btn.dart';
+import '../../util/auth/component.dart';
 import '../../util/auth/utils.dart';
 import '../../viewmodel/auth_viewmodel/auth_viewmodels.dart';
+import 'widget/input_password_widget.dart';
+import 'widget/input_username_widget.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -17,18 +15,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
 
   FocusNode usernameFocusNode = FocusNode();
   FocusNode passwordFocusNode = FocusNode();
 
-  ValueNotifier<bool> _obsecurePassword = ValueNotifier(true);
-  // TextEditingController _usernameController = TextEditingController();
-  // TextEditingController _passwordController = TextEditingController();
-  //
-  // FocusNode usernameFocusNode = FocusNode();
-  // FocusNode passwordFocusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
   final usernameNode = FocusNode();
   final passwordNode = FocusNode();
@@ -141,98 +131,94 @@ class _LoginPageState extends State<LoginPage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  TextFormField(
-                                    controller: _usernameController,
-                                    keyboardType: TextInputType.name,
-                                    focusNode: usernameFocusNode,
-                                    decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                        ),
-                                        hintText: 'Username',
-                                        labelText: 'Username',
-                                        prefixIcon:
-                                            Icon(Icons.alternate_email)),
-                                    onFieldSubmitted: (valu) {
-                                      Utils.fieldFocusChange(context,
-                                          usernameFocusNode, passwordFocusNode);
-                                    },
-                                  ),
-                                  SizedBox(
-                                    height: 20.0,
-                                  ),
-                                  ValueListenableBuilder(
-                                      valueListenable: _obsecurePassword,
-                                      builder: (context, value, child) {
-                                        return TextFormField(
-                                          controller: _passwordController,
-                                          obscureText: _obsecurePassword.value,
-                                          obscuringCharacter: '*',
-                                          focusNode: passwordFocusNode,
-                                          decoration: InputDecoration(
-                                              hintText: 'Password',
-                                              labelText: 'Password',
-                                              border: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                              ),
-                                              prefixIcon: Icon(Icons.lock_open),
-                                              suffixIcon: InkWell(
-                                                  onTap: () {
-                                                    _obsecurePassword.value =
-                                                        !_obsecurePassword
-                                                            .value;
-                                                  },
-                                                  child: Icon(_obsecurePassword
-                                                          .value
-                                                      ? Icons
-                                                          .visibility_off_outlined
-                                                      : Icons.visibility))),
-                                        );
-                                      }),
+                                  InputUserNameWidget(usernameFocusNode: usernameFocusNode, passwordFocusNode: passwordFocusNode),
+                                  InputPasswordWidget(passwordFocusNode: passwordFocusNode),
                                   SizedBox(
                                     height: 20,
                                   ),
-                                  RoundBottunLogin(
-                                      title: 'Log in',
-                                      // loading: authViewModel.loading,
-                                      onPress: () {
-                                        if (_usernameController.text.isEmpty) {
-                                          Utils.flushBarErrorMessage(
-                                              'please enter username.',
-                                              context);
-                                        } else if (_passwordController
-                                            .text.isEmpty) {
-                                          Utils.flushBarErrorMessage(
-                                              'please enter password', context);
-                                        } else if (_passwordController
-                                                .text.length <
-                                            6) {
-                                          Utils.flushBarErrorMessage(
-                                              'please should have a least 6 digit',
-                                              context);
-                                        } else {
-                                          Map data = {
-                                            'username': _usernameController.text
-                                                .toString(),
-                                            'password': _passwordController.text
-                                                .toString(),
-                                          };
-                                          authViewModel.loginApi(data, context);
-                                          print('api hit');
-                                        }
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  BottinNavigationBar(),
-                                            ));
-                                      }),
+                                  Consumer<AuthViewModel>(
+                                    builder: (context, provider, child) {
+                                      return RoundBottun(
+                                          title: 'Log in',
+                                          // loading: authViewModel.loading,
+                                          // onPress: () {
+                                          //   // if (provider.username.isEmpty) {
+                                          //   //   Utils.flushBarErrorMessage('please enter username.', context);
+                                          //   // } else
+                                          //     if(!AppValidator.usernameValidator(provider.username.toString())){
+                                          //     Utils.flushBarErrorMessage('Please enter valid email', context);
+                                          //   } else if (provider.password.isEmpty) {
+                                          //     Utils.flushBarErrorMessage(
+                                          //         'please enter password', context);
+                                          //   } else if (provider.password.length < 6) {
+                                          //     Utils.flushBarErrorMessage(
+                                          //         'please should have a least 6 digit', context);
+                                          //   } else {
+                                          //     // Map data = {
+                                          //     //   'username' : _usernameController.text.toString(),
+                                          //     //   'password' : _passwordController.text.toString(),
+                                          //     // };
+                                          //     // Map data = {
+                                          //     //   'username' : 'sbcsolutions',
+                                          //     //   'password' : 'Sbc@12345',
+                                          //     // };
+                                          //
+                                          //     Map data = {
+                                          //       'email' : provider.username.toString(),
+                                          //       'password' : provider.password.toString(),
+                                          //     };
+                                          //     authViewModel.loginApi(data, context);
+                                          //     // print('api hit');
+                                          //
+                                          //
+                                          //     provider.loginApi(data, context).then((value){
+                                          //       Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(),));
+                                          //     }).onError((error, stackTrace){
+                                          //       Utils.flushBarErrorMessage(error.toString(), context);
+                                          //     });
+                                          //
+                                          //   }
+                                          //   // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(),));
+                                          //
+                                          // });
+
+                                          // loading: provider.loginLoading ? true : false,
+                                          onPress: () {
+                                            if (provider.user_name!.isEmpty) {
+                                              Utils.flushBarErrorMessage(
+                                                  'please enter username.', context);
+                                            } else if (provider.password!.isEmpty) {
+                                              Utils.flushBarErrorMessage(
+                                                  'please enter password', context);
+                                            } else if (provider.password!.length < 6) {
+                                              Utils.flushBarErrorMessage(
+                                                  'please should have a least 6 digit', context);
+                                            } else {
+                                              Map data = {
+                                                'user_name': provider.user_name.toString(),
+                                                'password': provider.password.toString(),
+                                              };
+                                              authViewModel.loginApi(data, context);
+                                              print('api hit');
+                                              provider.loginApi(data, context).then((value) {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) => BottinNavigationBar(),
+                                                    ));
+                                              }).onError((error, stackTrace) {
+                                                Utils.flushBarErrorMessage(error.toString(), context);
+                                              });
+                                            }
+                                          });
+                                    },
+                                  ),
                                 ],
                               ),
-                            ]))
+                                ],
+                              ),
+                            )])
                   ])
-            ])));
+        ));
   }
 }

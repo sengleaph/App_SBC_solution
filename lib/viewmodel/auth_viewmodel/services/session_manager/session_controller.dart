@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import '../../../model/user_model.dart';
+import '../../../../model/auth_model/auth_model.dart';
 import '../storage/local_storage.dart';
 
 //singleton class
@@ -10,7 +10,7 @@ class SessionController {
   static final SessionController _session = SessionController._internel();
 
   bool? isLogin;
-  UserModel user = UserModel();
+  AuthModel user = AuthModel();
 
   factory SessionController() {
     return _session;
@@ -37,7 +37,7 @@ class SessionController {
       var isLogin = await sharedPreferenceClass.readValue('isLogin');
 
       if (userData.isNotEmpty) {
-        SessionController().user = UserModel.fromJson(jsonDecode(userData));
+        SessionController().user = AuthModel.fromJson(jsonDecode(userData));
       }
       SessionController().isLogin = isLogin == 'true'  ? true : false;
     } catch (e) {

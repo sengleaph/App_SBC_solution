@@ -7,6 +7,7 @@ class GenderSelectionWidget extends StatefulWidget {
 
 class _GenderSelectionWidgetState extends State<GenderSelectionWidget> {
   String _selectedGender = 'male'; // Default selected gender
+  var genderController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

@@ -16,5 +16,4 @@ class AuthRepository {
       rethrow;
     }
   }
-
 }

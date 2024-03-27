@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sbc_app/repository/auth_repo/auth_repository.dart';
+import 'package:sbc_app/model/customer_model/costumer_model.dart';
+import 'package:sbc_app/model/customer_model/post_customer_request.dart';
+import 'package:sbc_app/view/Costumer/no_mvvm/Custumer_page.dart';
+import 'package:sbc_app/view/Costumer/no_mvvm/widget/customer_detail.dart';
+import 'package:sbc_app/view/Costumer/no_mvvm/widget/update_no_mvvm.dart';
 import 'package:sbc_app/view/auth/login_page.dart';
+import 'package:sbc_app/view/home_page.dart';
 import 'package:sbc_app/view/navigation_bar/navigation_bar.dart';
+import 'package:sbc_app/view/product/product.dart';
+import 'package:sbc_app/view/product/widget/product_detail.dart';
+import 'package:sbc_app/view/report/report_page.dart';
+import 'package:sbc_app/view/sales_surveys/no_mvvm/sale_survey_page.dart';
+import 'package:sbc_app/view/sales_surveys/no_mvvm/widget/sale_detail.dart';
 import 'package:sbc_app/viewmodel/auth_viewmodel/auth_viewmodels.dart';
 
-import 'data/network/api_service.dart';
-
-// GetIt getIt = GetIt.instance;
+import 'view/sales_surveys/no_mvvm/widget/add_sales_no_mvvm.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,22 +24,19 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (_) =>
-              AuthViewModel())
-
-      ],
+      providers: [ChangeNotifierProvider(create: (_) => AuthViewModel())],
       child: MaterialApp(
-        home: LoginPage(),
+        home: CustumerPage(),
         debugShowCheckedModeBanner: false,
         routes: {
           '/login': (context) => LoginPage(),
-          '/bottinNavigationBar': (context) => BottinNavigationBar()
+          '/bottinNavigationBar': (context) => BottinNavigationBar(),
+          '/saleDeta': (BuildContext context) => new SaleDetail(),
+          '/customerDetail': (BuildContext context) => new CustomerDetail(customerModel: CustomerModel()),
+          '/updateCustomer': (BuildContext context) => new NoMvvmUpdateCustomer(customerModelPost: CustomerModelPost()),
         },
       ),
     );

@@ -2,23 +2,21 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:sbc_app/view/Costumer/Custumer_page.dart';
-import 'package:sbc_app/view/sales_surveys/sale_survey_page.dart';
-import 'package:sbc_app/view/sales_surveys/widget/date_picker.dart';
-import 'package:sbc_app/view/sales_surveys/widget/salesman.dart';
+import 'package:sbc_app/view/report/report_page.dart';
 
-import '../../home_page.dart';
+import '../../Costumer/no_mvvm/widget/genderselection.dart';
+import '../../sales_surveys/no_mvvm/widget/date_picker.dart';
 
-class AddSuveryPage extends StatefulWidget {
-  const AddSuveryPage({super.key});
+class AddReport extends StatefulWidget {
+  const AddReport({super.key});
 
   @override
-  State<AddSuveryPage> createState() => _AddSuveryPageState();
+  State<AddReport> createState() => _AddReportState();
 }
 
-class _AddSuveryPageState extends State<AddSuveryPage> {
+class _AddReportState extends State<AddReport> {
   var imageFile;
-  late String _selectedData;
+  String? _selectedGender;
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +25,11 @@ class _AddSuveryPageState extends State<AddSuveryPage> {
         backgroundColor: Colors.white,
         leading: IconButton(
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => SaleSurveyPage(),));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ReportPage(),));
             },
             icon: Icon(Icons.arrow_back,color: Colors.black)),
         title: Text(
-          "Add Survey", style: TextStyle(color: Colors.black),
+          "Add Report", style: TextStyle(color: Colors.black),
         ),
         // centerTitle: true,
       ),
@@ -66,23 +64,18 @@ class _AddSuveryPageState extends State<AddSuveryPage> {
                 SizedBox(
                   height: 20.0,
                 ),
-                DatePickerPage(),
-                SizedBox(
-                  height: 20.0,
-                ),
                 Container(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Custumer Name',
-                        label: Text('Custumer.'),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
+                    // child: TextField(
+                    //   decoration: InputDecoration(
+                    //     hintText: 'SBC Sulutions',
+                    //     label: Text('Company Name'),
+                    //     border: OutlineInputBorder(),
+                    //   ),
+                    // ),
                   ),
                 ),
-                SalesManPage(),
                 SizedBox(
                   height: 20.0,
                 ),
@@ -103,8 +96,8 @@ class _AddSuveryPageState extends State<AddSuveryPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: TextField(
                       decoration: InputDecoration(
-                        hintText: '',
-                        label: Text(' Product Name'),
+                        hintText: 'Seang Senglea...',
+                        label: Text('Name'),
                         border: OutlineInputBorder(),
                       ),
                     ),
@@ -113,20 +106,20 @@ class _AddSuveryPageState extends State<AddSuveryPage> {
                 SizedBox(
                   height: 20.0,
                 ),
-                // SizedBox(
-                //   height: 20.0,
-                // ),
-                //
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(horizontal: 15),
-                //   child: TextField(
-                //     decoration: InputDecoration(
-                //       hintText: '',
-                //       label: Text('Phone Number'),
-                //       border: OutlineInputBorder(),
-                //     ),
-                //   ),
-                // ),
+                DatePickerPage(),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: '',
+                      label: Text('Phone Number'),
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                ),
                 // SizedBox(
                 //   height: 20.0,
                 // ),
@@ -200,10 +193,10 @@ class _AddSuveryPageState extends State<AddSuveryPage> {
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(Colors.green)),
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => SaleSurveyPage()));
+                            builder: (context) => ReportPage()));
                   },
                   child: Text("Submit"),
                 ),

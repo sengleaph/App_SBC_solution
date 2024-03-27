@@ -1,18 +1,20 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sbc_app/view/Costumer/Custumer_page.dart';
+import 'package:sbc_app/view/Costumer/no_mvvm/Custumer_page.dart';
 import 'package:sbc_app/view/attendance/attendence_page.dart';
 import 'package:sbc_app/view/history/history_page.dart';
 import 'package:sbc_app/view/navigation_bar/navigation_bar.dart';
+import 'package:sbc_app/view/product/product.dart';
 import 'package:sbc_app/view/profile_page/profile_page.dart';
+import 'package:sbc_app/view/report/report_page.dart';
 import 'package:sbc_app/view/salary/salaryForm.dart';
 import 'package:sbc_app/view/time_leave/time_leave_page.dart';
 import 'package:sbc_app/view/widget/my_drawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../model/UserModel.dart';
-import 'sales_surveys/sale_survey_page.dart';
+import '../model/auth_model/UserModel.dart';
+import 'sales_surveys/no_mvvm/sale_survey_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -67,35 +69,36 @@ class _HomePageState extends State<HomePage> {
   }
 
   List imgData = [
-    "assets/images/attendance.png",
-    "assets/images/time_leave.png",
-    "assets/images/day_off.png",
+    // "assets/images/attendance.png",
+    // "assets/images/time_leave.png",
+    // "assets/images/day_off.png",
     "assets/images/customer.png",
     "assets/images/sale_survey.png",
-    "assets/images/salary.png",
-    "assets/images/OT.png",
+    // "assets/images/salary.png",
+    // "assets/images/OT.png",
     "assets/images/report.png",
+    "assets/images/product.png",
   ];
 
   List titles = [
-    "Attendance",
-    "Time Leave",
-    "Day Off",
+    // "Attendance",
+    // "Time Leave",
+    // "Day Off",
     "Customer",
     "Sales Survey",
-    "Salary",
-    "OT",
+    // "Salary",
     "Report",
+    "Product"
   ];
   List navigating = [
-    AttendencePage(),
-    TimeLeavePage(),
-    AttendencePage(),
+    // AttendencePage(),
+    // TimeLeavePage(),
+    // AttendencePage(),
     CustumerPage(),
     SaleSurveyPage(),
-    SalaryForm(),
-    SalaryForm(),
-    SalaryForm(),
+    // SalaryForm(),
+    ReportPage(),
+    ProductPage(),
   ];
 
   @override
@@ -163,7 +166,7 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: GridView.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3),
+                          crossAxisCount: 2),
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: imgData.length,
@@ -199,7 +202,7 @@ class _HomePageState extends State<HomePage> {
                                   imgData[index],
                                   fit: BoxFit.cover,
                                   width:
-                                      MediaQuery.of(context).size.width * 0.15,
+                                      MediaQuery.of(context).size.width * 0.2,
                                 ),
                                 SizedBox(
                                   height: 5.0,

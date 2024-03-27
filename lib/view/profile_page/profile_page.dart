@@ -14,10 +14,10 @@ class ProfilePage extends StatefulWidget {
   _ProfilePageState createState() => _ProfilePageState();
 }
 
-const phone =   "(+855) 17 35 02 16";
-const email = "sengleaphseang@gmail.com";
-const gender = "male";
-const company = "Sbc";
+  const phone =   "(+855) 17 35 02 16";
+  const email = "sengleaphseang@gmail.com";
+  const gender = "male";
+  const company = "Sbc";
 
 class _ProfilePageState extends State<ProfilePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
