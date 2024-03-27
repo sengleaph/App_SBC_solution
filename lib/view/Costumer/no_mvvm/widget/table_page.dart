@@ -43,5 +43,5 @@ class DataSource extends DataTableSource {
 
   @override
   // TODO: implement selectedRowCount
-  int get selectedRowCount => data.length;
+  int get selectedRowCount => 0;
 }

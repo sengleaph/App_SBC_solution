@@ -68,83 +68,93 @@ class _NoMvvmAddCustomerState extends State<NoMvvmAddCustomer> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Post API Demo'),
+        backgroundColor: Colors.white,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back, color: Colors.black)),
+        title: Text('Add Customer', style: TextStyle(color: Colors.black)),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextField(
-                controller: nameController,
-                decoration: InputDecoration(
-                  labelText: 'Name', border: OutlineInputBorder()
+      body: SingleChildScrollView(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextField(
+                  controller: nameController,
+                  decoration: InputDecoration(
+                    labelText: 'Name', border: OutlineInputBorder()
+                  ),
                 ),
-              ),
-              SizedBox(height: 10,),
-              DropdownButtonFormField<String>(
-                value: _selectedGender,
-                items: ['Male', 'Female', 'Other'].map((gender) {
-                  return DropdownMenuItem<String>(
-                    value: gender,
-                    child: Text(gender),
-                  );
-                }).toList(),
-                decoration: InputDecoration(
-                  hintText: 'Select Gender',
-                  labelText: 'Gender',
-                  border: OutlineInputBorder(),
-                ),
-                onChanged: (value) {
-                  setState(() {
-                    _selectedGender = value;
-                  });
-                },
-              ),
-              SizedBox(height: 10,),
-              TextField(
-                controller: companyController,
-                decoration: InputDecoration(
-                  labelText: 'Company',
+                SizedBox(height: 10,),
+                DropdownButtonFormField<String>(
+                  value: _selectedGender,
+                  items: ['Male', 'Female', 'Other'].map((gender) {
+                    return DropdownMenuItem<String>(
+                      value: gender,
+                      child: Text(gender),
+                    );
+                  }).toList(),
+                  decoration: InputDecoration(
+                    hintText: 'Select Gender',
+                    labelText: 'Gender',
                     border: OutlineInputBorder(),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedGender = value;
+                    });
+                  },
                 ),
-              ),
-              SizedBox(height: 10,),
-              TextField(
-                controller: phoneController,
-                decoration: InputDecoration(
-                  labelText: 'Phone',
-                    border: OutlineInputBorder()
+                SizedBox(height: 10,),
+                TextField(
+                  controller: companyController,
+                  decoration: InputDecoration(
+                    labelText: 'Company',
+                      border: OutlineInputBorder(),
+                  ),
                 ),
-              ),
-              SizedBox(height: 10,),
-              TextField(
-                controller: addressController,
-                decoration: InputDecoration(
-                  labelText: 'Address', border: OutlineInputBorder()
+                SizedBox(height: 10,),
+                TextField(
+                  controller: phoneController,
+                  decoration: InputDecoration(
+                    labelText: 'Phone',
+                      border: OutlineInputBorder()
+                  ),
                 ),
-              ),
-              SizedBox(height: 10,),
-              TextField(
-                controller: codeController,
-                decoration: InputDecoration(
-                  labelText: 'Code', border: OutlineInputBorder()
+                SizedBox(height: 10,),
+                TextField(
+                  controller: addressController,
+                  decoration: InputDecoration(
+                    labelText: 'Address', border: OutlineInputBorder()
+                  ),
                 ),
-              ),
-              SizedBox(height: 10,),
-              TextField(
-                controller: emailController,
-                decoration: InputDecoration(
-                  labelText: 'Email', border: OutlineInputBorder()
+                SizedBox(height: 10,),
+                TextField(
+                  controller: codeController,
+                  decoration: InputDecoration(
+                    labelText: 'Code', border: OutlineInputBorder()
+                  ),
                 ),
-              ),
-              SizedBox(height: 10,),
-              ElevatedButton(
-                onPressed: postData,
-                child: Text('Send POST Request'),
-              ),
-            ],
+                SizedBox(height: 10,),
+                TextField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Email', border: OutlineInputBorder()
+                  ),
+                ),
+                SizedBox(height: 10,),
+                ElevatedButton( style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+                ),
+                  onPressed: postData,
+                  child: Text('Send POST Request'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

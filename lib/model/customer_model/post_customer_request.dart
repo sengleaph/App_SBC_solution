@@ -25,7 +25,6 @@ class CustomerModelPost {
 }
 
 class Data {
-  String? id;
   String? name;
   String? gender;
   String? company;
@@ -37,7 +36,6 @@ class Data {
   String? email;
 
   Data({
-    this.id,
     this.name,
     this.gender,
     this.company,
@@ -50,7 +48,7 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    id: json["id"],
+
     name: json["name"],
     gender: json["gender"],
     company: json["company"],
@@ -63,7 +61,7 @@ class Data {
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
+
     "name": name,
     "gender": gender,
     "company": company,

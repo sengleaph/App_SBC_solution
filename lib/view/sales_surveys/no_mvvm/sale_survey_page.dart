@@ -126,7 +126,7 @@ class _SaleSurveyPageState extends State<SaleSurveyPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => SaleDetail(),
+                                builder: (context) => SaleDetail(saleModel: SaleModel, onUpdate: (){}),
                               ));
                         }),
                   ),

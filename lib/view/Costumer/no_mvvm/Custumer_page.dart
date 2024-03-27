@@ -148,13 +148,13 @@ class _CustumerPageState extends State<CustumerPage> {
                           DataColumn(label: Text('Company')),
                           DataColumn(label: Text('Name')),
                           DataColumn(label: Text('Phone')),
-                          DataColumn(label: InkWell(child: Icon(Icons.remove_red_eye),)),
+                          DataColumn(label: Text('View',)),
 
 
                         ],
                         onPageChanged: (value) => _currentPage + 1,
                         source: DataSource(data: _customers, onTap: (CustomerModel){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => CustomerDetail(customerModel: CustomerModel,)));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => CustomerDetail(customerModel: CustomerModel, onUpdate: () {  },)));
                         }),
                         header: _isLoading || _customers.isEmpty
                             ? null
@@ -167,7 +167,7 @@ class _CustumerPageState extends State<CustumerPage> {
                         //   fetchData();
                         // },
                       ),
-
+SizedBox(height: 100,)
             ],
           ),
         ),

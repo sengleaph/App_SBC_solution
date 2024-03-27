@@ -1,185 +1,213 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:sbc_app/model/customer_model/costumer_model.dart';
-import 'package:sbc_app/model/customer_model/post_customer_request.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-import '../Custumer_page.dart';
+import '../../../../util/auth/utils.dart';
 
-class NoMvvmUpdateCustomer extends StatelessWidget {
-  CustomerModelPost customerModelPost;
+class NoMvvmUpdateCustomer extends StatefulWidget {
+  final CustomerModel customerModel;
+  final void Function(CustomerModel updatedCustomerModel) onUpdate;
 
-  NoMvvmUpdateCustomer({required this.customerModelPost, Key?key}) : super(key: key);
+  NoMvvmUpdateCustomer(
+      {Key? key, required this.customerModel, required this.onUpdate})
+      : super(key: key);
+
+  @override
+  State<NoMvvmUpdateCustomer> createState() => _NoMvvmUpdateCustomerState();
+}
+
+class _NoMvvmUpdateCustomerState extends State<NoMvvmUpdateCustomer> {
+  late TextEditingController nameController;
+  late TextEditingController genderController;
+  late TextEditingController companyController;
+  late TextEditingController phoneController;
+  late TextEditingController addressController;
+  late TextEditingController codeController;
+  late TextEditingController emailController;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize controllers with data from customerModel
+    nameController = TextEditingController(text: widget.customerModel.name);
+    genderController = TextEditingController(text: widget.customerModel.gender);
+    companyController =
+        TextEditingController(text: widget.customerModel.company);
+    phoneController = TextEditingController(text: widget.customerModel.phone);
+    addressController =
+        TextEditingController(text: widget.customerModel.address);
+    codeController = TextEditingController(text: widget.customerModel.code);
+    emailController = TextEditingController(text: widget.customerModel.email);
+
+    // Log data to the console
+    print('Customer ID: ${widget.customerModel.id}');
+    print('Name: ${widget.customerModel.name}');
+    print('Address: ${widget.customerModel.address}');
+    print('Company: ${widget.customerModel.company}');
+    print('Gender: ${widget.customerModel.gender}');
+    print('Email: ${widget.customerModel.email}');
+    print('Code: ${widget.customerModel.code}');
+  }
+
+  @override
+  void dispose() {
+    // Dispose controllers when the widget is disposed
+    nameController.dispose();
+    genderController.dispose();
+    companyController.dispose();
+    phoneController.dispose();
+    addressController.dispose();
+    codeController.dispose();
+    emailController.dispose();
+    super.dispose();
+  }
+
+  String? _selectedGender;
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController nameController = TextEditingController();
-    final TextEditingController genderController = TextEditingController();
-    final TextEditingController companyController = TextEditingController();
-    final TextEditingController phoneController = TextEditingController();
-    final TextEditingController addressController = TextEditingController();
-    final TextEditingController codeController = TextEditingController();
-    final TextEditingController emailController = TextEditingController();
-
-    // Initialize text controllers with old data
-    // nameController.text = '${customerModelPost.data?.name}';
-    // companyController.text = '${customerModelPost.data?.company}';
-    // phoneController.text = '${customerModelPost.data?.phone}';
-    // addressController.text = '${customerModelPost.data?.address}';
-    // codeController.text = '${customerModelPost.data?.code}';
-    // emailController.text = '${customerModelPost.data?.email}';
-    // String? _selectedGender = customerModelPost.data?.gender;
-
-    // Future<void> updateData() async {
-    //   var headers = {
-    //     // 'Content-Type': 'application/json',
-    //     'api-key': '4sowwscowwgs8cs800cswkkw44kw0wk84wsssooo',
-    //     'Cookie':
-    //     'bpas_cart_id=ed3ae164d4f4b1e98c577e3418f0335b; bpas_token_cookie=69c46d4b65284b5359de2ecdd129e908; sess=9fjllibv9tmqvbujmk3kqm5fquq09vvm'
-    //   };
-    //
-    //   var requestBody = {
-    //     'name': nameController.text,
-    //     'gender': genderController.text,
-    //     'company': companyController.text,
-    //     'phone': phoneController.text,
-    //     'address': addressController.text,
-    //     'code': codeController.text,
-    //     'email': emailController.text
-    //   };
-    //
-    //   var url =
-    //       'http://178.128.24.212:9876/mv_research/api/v1/customers/edit/${customerModelPost!.data?.id}?api-key=4sowwscowwgs8cs800cswkkw44kw0wk84wsssoo&';
-    //
-    //   try {
-    //     http.Response response = await http.post(
-    //       Uri.parse(url),
-    //       headers: headers,
-    //       body: requestBody,
-    //     );
-    //
-    //     if (response.statusCode == 200) {
-    //       print(response.body);
-    //
-    //       // Navigate to CustomerPage on success
-    //       Navigator.push(
-    //         context,
-    //         MaterialPageRoute(builder: (context) => CustumerPage()),
-    //       );
-    //     } else {
-    //       print('Request failed with status: ${response.statusCode}');
-    //     }
-    //   } catch (e) {
-    //     print('Error: $e');
-    //   }
-    // }
-
-    Future<void> updateData() async {
-      var headers = {
-        'api-key': '4sowwscowwgs8cs800cswkkw44kw0wk84wsssooo',
-        'Cookie':
-        'bpas_cart_id=ed3ae164d4f4b1e98c577e3418f0335b; bpas_token_cookie=69c46d4b65284b5359de2ecdd129e908; sess=9fjllibv9tmqvbujmk3kqm5fquq09vvm'
-      };
-
-      var requestBody = {
-        'name': nameController.text,
-        'gender': genderController.text,
-        'company': companyController.text,
-        'phone': phoneController.text,
-        'address': addressController.text,
-        'code': codeController.text,
-        'email': emailController.text
-      };
-
-      var url =
-          'http://178.128.24.212:9876/mv_research/api/v1/customers/edit/${customerModelPost.data!.id}?api-key=4sowwscowwgs8cs800cswkkw44kw0wk84wsssoo';
-
-      try {
-        http.Response response = await http.post(
-          Uri.parse(url),
-          headers: headers,
-          body: requestBody,
-        );
-
-        if (response.statusCode == 200) {
-          print('Data updated successfully');
-          // Optionally, you can handle the response data here
-          // For example, if the server returns updated data, you can parse and use it
-          // Navigate to CustomerPage on success
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => CustumerPage()),
-          );
-        } else {
-          // Request failed with an error code
-          print('Request failed with status: ${response.statusCode}');
-          // Optionally, you can handle different error scenarios here
-        }
-      } catch (e) {
-        // An error occurred during the request
-        print('Error: $e');
-        // Optionally, you can show an error message to the user or retry the request
-      }
-    }
-
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('Update Customer Data'),
+        backgroundColor: Colors.white,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back, color: Colors.black)),
+        title: Text('Edit Customer', style: TextStyle(color: Colors.black)),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('${customerModelPost!.data?.id}'),
-              TextField(
+              TextFormField(
                 controller: nameController,
-                decoration: InputDecoration(labelText: 'Name'),
+                decoration: InputDecoration(
+                    labelText: 'Name', border: OutlineInputBorder()),
               ),
-              SizedBox(height: 10),
+              SizedBox(
+                height: 10,
+              ),
               DropdownButtonFormField<String>(
-                // value: _selectedGender,
+                value: _selectedGender,
                 items: ['Male', 'Female', 'Other'].map((gender) {
                   return DropdownMenuItem<String>(
                     value: gender,
                     child: Text(gender),
                   );
                 }).toList(),
-                decoration: InputDecoration(labelText: 'Gender'),
+                decoration: InputDecoration(
+                    labelText: 'Gender', border: OutlineInputBorder()),
                 onChanged: (value) {
-                  // _selectedGender = value;
+                  setState(() {
+                    _selectedGender = value!;
+                  });
                 },
               ),
-              SizedBox(height: 10),
-              TextField(
+              SizedBox(
+                height: 10,
+              ),
+              TextFormField(
                 controller: companyController,
-                decoration: InputDecoration(labelText: 'Company'),
+                decoration: InputDecoration(
+                    labelText: 'Company', border: OutlineInputBorder()),
               ),
-              SizedBox(height: 10),
-              TextField(
+              SizedBox(
+                height: 10,
+              ),
+              TextFormField(
                 controller: phoneController,
-                decoration: InputDecoration(labelText: 'Phone'),
+                decoration: InputDecoration(
+                    labelText: 'Phone', border: OutlineInputBorder()),
               ),
-              SizedBox(height: 10),
-              TextField(
+              SizedBox(
+                height: 10,
+              ),
+              TextFormField(
                 controller: addressController,
-                decoration: InputDecoration(labelText: 'Address'),
+                decoration: InputDecoration(
+                    labelText: 'Address', border: OutlineInputBorder()),
               ),
-              SizedBox(height: 10),
-              TextField(
+              SizedBox(
+                height: 10,
+              ),
+              TextFormField(
                 controller: codeController,
-                decoration: InputDecoration(labelText: 'Code'),
+                decoration: InputDecoration(
+                    labelText: 'Code', border: OutlineInputBorder()),
               ),
-              SizedBox(height: 10),
-              TextField(
+              SizedBox(
+                height: 10,
+              ),
+              TextFormField(
                 controller: emailController,
-                decoration: InputDecoration(labelText: 'Email'),
+                decoration: InputDecoration(
+                    labelText: 'Email', border: OutlineInputBorder()),
               ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: updateData,
-                child: Text('Update Data'),
+              SizedBox(
+                height: 10,
+              ),
+              SizedBox(height: 16),
+              Center(
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.green.shade900),
+                  ),
+                  onPressed: () async {
+                    var id = widget.customerModel
+                        .id; // Assuming id is accessible from the customerModel
+
+                    var headers = {
+                      'api-key': '4sowwscowwgs8cs800cswkkw44kw0wk84wsssooo',
+                      'Cookie': 'bpas_cart_id=ed3ae164d4f4b1e98c577e3418f0335b',
+                    };
+
+                    var request = http.MultipartRequest(
+                        'POST',
+                        Uri.parse(
+                            'http://178.128.24.212:9876/mv_research/api/v1/customers/edit/$id?api-key=4sowwscowwgs8cs800cswkkw44kw0wk84wsssoo'));
+
+                    request.fields.addAll({
+                      'name': nameController.text,
+                      'gender': genderController.text,
+                      'company': companyController.text,
+                      'phone': phoneController.text,
+                      'address': addressController.text,
+                      'code': codeController.text,
+                      'email': emailController.text,
+                    });
+
+                    request.headers.addAll(headers);
+
+                    try {
+                      http.StreamedResponse response = await request.send();
+
+                      if (response.statusCode == 200) {
+                        var responseBody =
+                            await response.stream.bytesToString();
+                        var jsonResponse = json.decode(responseBody);
+                        var updatedCustomerModel =
+                            CustomerModel.fromJson(jsonResponse);
+                        widget.onUpdate(updatedCustomerModel);
+                        // Process jsonResponse if needed
+                        print(jsonResponse);
+                        Navigator.pop(context);
+                        Utils.flushBarSuccessMessage(
+                            'Customer successfully updated', context);
+                      } else {
+                        print(
+                            'Failed to update customer data: ${response.reasonPhrase}');
+                      }
+                    } catch (e) {
+                      print('Error updating customer data: $e');
+                    }
+                  },
+                  child: Text('Save'),
+                ),
               ),
             ],
           ),
@@ -188,157 +216,3 @@ class NoMvvmUpdateCustomer extends StatelessWidget {
     );
   }
 }
-//
-//
-// import 'package:flutter/material.dart';
-// import 'package:http/http.dart' as http;
-// import 'package:sbc_app/model/customer_model/costumer_model.dart';
-//
-// import '../Custumer_page.dart';
-//
-// class NoMvvmUpdateCustomer extends StatefulWidget {
-//   CustomerModel? customerModel;
-//
-//   NoMvvmUpdateCustomer({Key? key, required this.customerModel}) : super(key: key);
-//
-//   @override
-//   _NoMvvmUpdateCustomerState createState() => _NoMvvmUpdateCustomerState();
-// }
-//
-// class _NoMvvmUpdateCustomerState extends State<NoMvvmUpdateCustomer> {
-//   final TextEditingController nameController = TextEditingController();
-//   final TextEditingController genderController = TextEditingController();
-//   final TextEditingController companyController = TextEditingController();
-//   final TextEditingController phoneController = TextEditingController();
-//   final TextEditingController addressController = TextEditingController();
-//   final TextEditingController codeController = TextEditingController();
-//   final TextEditingController emailController = TextEditingController();
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     // Initialize text controllers with old data
-//     nameController.text = '${widget.customerModel!.name}';
-//     companyController.text = '${widget.customerModel!.company}';
-//     phoneController.text = '${widget.customerModel!.phone}';
-//     addressController.text = '${widget.customerModel!.address}';
-//     codeController.text = '${widget.customerModel!.code}';
-//     emailController.text = '${widget.customerModel!.email}';
-//     _selectedGender = widget.customerModel!.gender;
-//   }
-//
-//   Future<void> updateData() async {
-//     var headers = {
-//       // 'Content-Type': 'application/json',
-//       'api-key': '4sowwscowwgs8cs800cswkkw44kw0wk84wsssooo',
-//       'Cookie':
-//       'bpas_cart_id=ed3ae164d4f4b1e98c577e3418f0335b; bpas_token_cookie=69c46d4b65284b5359de2ecdd129e908; sess=9fjllibv9tmqvbujmk3kqm5fquq09vvm'
-//     };
-//
-//     var requestBody = {
-//       'name': nameController.text,
-//       'gender': genderController.text,
-//       'company': companyController.text,
-//       'phone': phoneController.text,
-//       'address': addressController.text,
-//       'code': codeController.text,
-//       'email': emailController.text
-//     };
-//
-//     var url =
-//         'http://178.128.24.212:9876/mv_research/api/v1/customers/edit/${widget.customerModel!.id}?api-key=4sowwscowwgs8cs800cswkkw44kw0wk84wsssoo';
-//
-//     try {
-//       http.Response response = await http.post(
-//         Uri.parse(url),
-//         headers: headers,
-//         body: requestBody,
-//       );
-//
-//       if (response.statusCode == 200) {
-//         print(response.body);
-//
-//         // Navigate to CustomerPage on success
-//         Navigator.push(
-//           context,
-//           MaterialPageRoute(builder: (context) => CustumerPage()),
-//         );
-//       } else {
-//         print('Request failed with status: ${response.statusCode}');
-//       }
-//     } catch (e) {
-//       print('Error: $e');
-//     }
-//   }
-//
-//   String? _selectedGender;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Update Customer Data'),
-//       ),
-//       body: Center(
-//         child: Padding(
-//           padding: const EdgeInsets.all(10.0),
-//           child: Column(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             children: [
-//               TextField(
-//                 controller: nameController,
-//                 decoration: InputDecoration(labelText: 'Name'),
-//               ),
-//               SizedBox(height: 10),
-//               DropdownButtonFormField<String>(
-//                 value: _selectedGender,
-//                 items: ['Male', 'Female', 'Other'].map((gender) {
-//                   return DropdownMenuItem<String>(
-//                     value: gender,
-//                     child: Text(gender),
-//                   );
-//                 }).toList(),
-//                 decoration: InputDecoration(labelText: 'Gender'),
-//                 onChanged: (value) {
-//                   setState(() {
-//                     _selectedGender = value;
-//                   });
-//                 },
-//               ),
-//               SizedBox(height: 10),
-//               TextField(
-//                 controller: companyController,
-//                 decoration: InputDecoration(labelText: 'Company'),
-//               ),
-//               SizedBox(height: 10),
-//               TextField(
-//                 controller: phoneController,
-//                 decoration: InputDecoration(labelText: 'Phone'),
-//               ),
-//               SizedBox(height: 10),
-//               TextField(
-//                 controller: addressController,
-//                 decoration: InputDecoration(labelText: 'Address'),
-//               ),
-//               SizedBox(height: 10),
-//               TextField(
-//                 controller: codeController,
-//                 decoration: InputDecoration(labelText: 'Code'),
-//               ),
-//               SizedBox(height: 10),
-//               TextField(
-//                 controller: emailController,
-//                 decoration: InputDecoration(labelText: 'Email'),
-//               ),
-//               SizedBox(height: 20),
-//               ElevatedButton(
-//                 onPressed: updateData,
-//                 child: Text('Update Data'),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
